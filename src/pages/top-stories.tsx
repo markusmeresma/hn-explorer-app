@@ -1,21 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@nextui-org/react";
-import PostsTable from "../components/Table";
+import { StoriesTable } from "../components/Table";
 import { StoryItem } from "./api/dataFromHN";
-import { fetchStories } from "@/lib/fetchData";
+import { fetchData } from "@/lib/fetchData";
 import { Column } from "../components/Table";
 
 type TopStoriesProps = {
   filteredTopStories: StoryItem[];
 };
-
-/*
-export type column = {
-  key: string;
-  label: string;
-};
-*/
 
 const columns: Column[] = [
   {
@@ -41,27 +34,7 @@ export const getStaticProps = async () => {
   let filteredTopStories: StoryItem[] = [];
 
   try {
-    /*
-    // Get stories from the api
-    const response = await fetch(
-      "http://localhost:3000/api/dataFromHN?type=topstories"
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "Network response was not ok (in top-stories.tsx): " +
-          response.statusText
-      );
-    }
-
-    // Save the returned JSON object in a variable
-    const data = await response.json();
-
-    // Access the list of top stories from the JSON object
-    allTopStoriesList = data.topStories;
-    */
-
-    allTopStoriesList = await fetchStories("topstories");
+    allTopStoriesList = await fetchData("topstories");
 
     // Order the top stories in descending order
     allTopStoriesList.sort((a, b) => b.score - a.score);
@@ -75,7 +48,7 @@ export const getStaticProps = async () => {
     };
   } catch (error) {
     console.error(
-      "There has been a problem with fetching the stories in /top-stories: " +
+      "There has been a problem with fetching the stories in /top-stories. " +
         error
     );
 
@@ -89,10 +62,10 @@ const TopStories: React.FC<TopStoriesProps> = ({ filteredTopStories }) => {
   return (
     <div>
       <Link href="/">
-        <Button>Back to home page</Button>
+        <Button className="ml-5 mb-3 mt-3">Back to home page</Button>
       </Link>
-      <h1>Up to 500 top and new HN stories</h1>
-      <PostsTable topPosts={filteredTopStories} columns={columns} />
+      <h1 className="ml-5 mb-2 text-2xl">Up to 500 top and new HN stories</h1>
+      <StoriesTable topPosts={filteredTopStories} columns={columns} />
     </div>
   );
 };

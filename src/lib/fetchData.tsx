@@ -1,7 +1,7 @@
 import { StoryItem } from "@/pages/api/dataFromHN";
 import { JobItem } from "@/pages/api/dataFromHN";
 
-export async function fetchStories(type: string): Promise<any> {
+export async function fetchData(type: string): Promise<any> {
   try {
     // Get stories from the api
     const response = await fetch(
@@ -10,7 +10,7 @@ export async function fetchStories(type: string): Promise<any> {
 
     if (!response.ok) {
       throw new Error(
-        "Network response was not ok (in top-stories.tsx): " +
+        "Network response was not ok (in top-stories.tsx). " +
           response.statusText
       );
     }
@@ -21,7 +21,7 @@ export async function fetchStories(type: string): Promise<any> {
     return data.topStories;
   } catch (error) {
     console.error(
-      "There has been a problem with fetching the stories in /lib/fetchData: " +
+      "There has been a problem with fetching the data in /lib/fetchData. " +
         error
     );
 
